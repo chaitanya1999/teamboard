@@ -1,0 +1,19 @@
+{
+  "name": "cvboard",
+  "version": "1.0.0",
+  "description": "",
+  "main": "cvboard.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^2.3.0",
+    "socketio": "^1.0.0",
+    "ws": "^7.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+	"start": "node cvboard.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
