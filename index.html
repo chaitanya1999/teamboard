@@ -24,6 +24,8 @@
 				data = JSON.parse(msg.data);
 				//console.log("# " + data.x + " " + data.y);
 				context.beginPath();
+				context.lineWidth=3;
+				context.strokeStyle="#000000";
 				for(var i=0;i<data.length;i++){
 					context.lineTo(data[i].x,data[i].y);
 				}
@@ -41,12 +43,35 @@
 				canvas.addEventListener('mousedown',mouseDown);
 				canvas.addEventListener('mouseup',mouseUp);
 				canvas.addEventListener('mousemove',mouseMove);
+				canvas.addEventListener("touchstart", function (e) {
+					mousePos = getTouchPos(canvas, e);
+					var touch = e.touches[0];
+					var mouseEvent = new MouseEvent("mousedown", {
+						clientX: touch.clientX,
+						clientY: touch.clientY
+					});
+					canvas.dispatchEvent(mouseEvent);
+				}, false);
+				canvas.addEventListener("touchend", function (e) {
+					var mouseEvent = new MouseEvent("mouseup", {});
+					canvas.dispatchEvent(mouseEvent);
+				}, false);
+				canvas.addEventListener("touchmove", function (e) {
+					var touch = e.touches[0];
+					var mouseEvent = new MouseEvent("mousemove", {
+						clientX: touch.clientX,
+						clientY: touch.clientY
+					});
+					canvas.dispatchEvent(mouseEvent);
+				}, false);
 				$("#body")[0].addEventListener('mouseup',mouseUp);
 				$("#body")[0].addEventListener('mousedown',mouseDown);
 			}
 			function mouseDown(e){
 				dragging=true;
 				context.beginPath();
+				context.lineWidth=3;
+				context.strokeStyle="#000000";
 			}
 			function mouseMove(e){
 				if(dragging){
