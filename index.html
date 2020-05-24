@@ -21,7 +21,7 @@
 			socket.onmessage = function(msg){
 				console.log("ws msg");
 				data = JSON.parse(msg.data);
-				console.log(data.x + " " + data.y);
+				console.log("# " + data.x + " " + data.y);
 				context.beginPath();
 				context.lineTo(data.x,data.y);
 				context.stroke();
