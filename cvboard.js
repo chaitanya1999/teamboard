@@ -19,6 +19,6 @@ wss.on('connection', (ws) => {
   ws.on('close', () => console.log('Client disconnected'));
   ws.on('message',(msg)=>{
     //console.log("msg from client");
-	wss.clients.forEach((c)=>{c.send(msg);})
+	wss.clients.forEach((c)=>{if(c!=ws)c.send(msg);})
   });
 });
