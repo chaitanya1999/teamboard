@@ -17,6 +17,19 @@
 		<script>
 			var canvas,context;
 			var dragging=false;
+			var socket = new WebSocket("ws://localhost:3000");
+			socket.onmessage = function(msg){
+				data = JSON.parse(msg.data);
+				context.beginPath();
+				context.lineTo(data.x,data.y);
+				context.stroke();
+			}
+			socket.onopen = function(e){
+				console.log("connected to server");
+			}
+			socket.onclose = function(e){
+				console.log("disconnected");
+			}
 			function afterLoad(){
 				canvas = $("#board")[0];
 				context = canvas.getContext('2d');
@@ -34,7 +47,9 @@
 				if(dragging){
 					var x = e.offsetX || e.layerX - canvas.offsetLeft;
 					var y = e.offsetY || e.layerY - canvas.offsetTop;
+					context.lineTo(x,y);
 					context.stroke();
+					socket.send(JSON.stringify({x:x,y:y}));
 				}
 			}
 			function mouseUp(e){
