@@ -17,17 +17,20 @@
 		<script>
 			var canvas,context;
 			var dragging=false;
+			var points=[];
 			var socket = new WebSocket("ws://cvboard.herokuapp.com",3000);
 			socket.onmessage = function(msg){
 				console.log("ws msg");
 				data = JSON.parse(msg.data);
-				console.log("# " + data.x + " " + data.y);
+				//console.log("# " + data.x + " " + data.y);
 				context.beginPath();
-				context.lineTo(data.x,data.y);
+				for(var i=0;i<data.length;i++){
+					context.lineTo(data[i].x,data[i].y);
+				}
 				context.stroke();
 			}
 			socket.onopen = function(e){
-				console.log("connected to server");
+				console.log("connected to ws server");
 			}
 			socket.onclose = function(e){
 				console.log("disconnected");
@@ -51,11 +54,13 @@
 					var y = e.offsetY || e.layerY - canvas.offsetTop;
 					context.lineTo(x,y);
 					context.stroke();
-					socket.send(JSON.stringify({x:x,y:y}));
+					points.push({x:x,y:y});
 				}
 			}
 			function mouseUp(e){
 				dragging=false;
+				socket.send(JSON.stringify(points));
+				points=[];
 			}
 		</script>
 		
