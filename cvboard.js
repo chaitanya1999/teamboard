@@ -22,3 +22,8 @@ wss.on('connection', (ws) => {
 	wss.clients.forEach((c)=>{if(c!=ws)c.send(msg);})
   });
 });
+
+setInterval(function(){
+	console.log("ping all");
+	wss.clients.forEach((c)=>{c.send(JSON.stringify({ping:true}));})
+},10000);
