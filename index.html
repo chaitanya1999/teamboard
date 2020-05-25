@@ -59,7 +59,7 @@
 				cp = $("#cp")[0];
 				cp.style.width = cp.parentElement.style.width;
 				
-				canvas.style.width = cp.clientWidth-40;
+				canvas.style.width = cp.clientWidth - parseInt(cp.style.padding.replace('px','')) * 2;
 				canvas.style.height = canvas.height;
 				
 				str =  canvas.style.width;
@@ -129,7 +129,7 @@
 		
 	</head>
 	<body id='body' class='body wrapper' style='padding:20px;' onload='afterLoad()'>
-		<div class='container'>
+		<div class='container-fluid'>
 			<h2>TeamBoard</h2>
 			<div class='jumbotron center1' id='cp' style='padding:20px;width:940px;height:540px;'>
 				<canvas id='board' height='500px' width='900px' style='border: 1px solid blue;'></canvas>
