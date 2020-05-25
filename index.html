@@ -33,8 +33,8 @@
 			var dragging=false;
 			var points=[];
 			var scaleX = 900;
-			//var socket = new WebSocket("ws://cvboard.herokuapp.com",3000);
-			var socket = new WebSocket("ws://192.168.1.8:3000",);
+			var socket = new WebSocket("ws://cvboard.herokuapp.com",3000);
+			//var socket = new WebSocket("ws://192.168.1.8:3000");
 			socket.onmessage = function(msg){
 				console.log("ws msg");
 				data = JSON.parse(msg.data);
