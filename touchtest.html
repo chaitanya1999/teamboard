@@ -1,0 +1,27 @@
+<html>
+	<head>
+		<script>
+			function afterLoad(){
+				var div = document.getElementById("mydiv");
+				var h = document.getElementById("myh");
+				div.addEventListener("touchstart", function (e) {
+					var touch = e.touches[0];
+					h.innerHTML = touch.clientX + " " + touch.clientY;
+				}, false);
+				div.addEventListener("touchend", function (e) {
+					
+				}, false);
+				div.addEventListener("touchmove", function (e) {
+					var touch = e.touches[0];
+					h.innerHTML = touch.clientX + " " + touch.clientY;
+				}, false);
+			}
+		</script>
+	</head>
+	<body onload='afterLoad()' style='position:absolute;top:0px;width:500px;height:500px;z-index:1;'>
+	<br/><br/><br/><br/><br/>
+		<div id='mydiv' style='position:absolute;overflow-y: hidden;width:100%;height:100%;background-color:#FFFF00;z-index:2'>
+			<h1 id='myh'></h1>
+		</div>
+	</body>
+</html>
