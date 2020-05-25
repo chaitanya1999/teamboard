@@ -8,7 +8,7 @@
 		
 		<style>
 			.center1{
-				width:100%;
+				width:740px;
 				margin-left:auto;
 				margin-right:auto;
 			}
@@ -55,7 +55,6 @@
 			}
 			function afterLoad(){
 				canvas = $("#board")[0];
-				canvas.width = canvas.parentElement.clientWidth-40;
 				context = canvas.getContext('2d');
 				canvas.addEventListener('mousedown',mouseDown);
 				canvas.addEventListener('mouseup',mouseUp);
@@ -119,8 +118,8 @@
 	<body id='body' class='body wrapper' style='padding:20px;' onload='afterLoad()'>
 		<div class='container'>
 			<h2>TeamBoard</h2>
-			<div class='jumbotron center1' style='padding:20px'>
-				<canvas id='board' height='500px' style='border: 1px solid blue;'></canvas>
+			<div class='jumbotron center1' style='padding:20px;width:840px'>
+				<canvas id='board' height='500px' width='800px' style='border: 1px solid blue;'></canvas>
 			</div>
 		</div>
 	</body>
