@@ -8,7 +8,6 @@
 		
 		<style>
 			.center1{
-				width:840px;
 				margin-left:auto;
 				margin-right:auto;
 			}
@@ -18,7 +17,6 @@
 			  
 			  width: 100%;
 			  height: 100%;
-			  overflow-y: hidden;
 			}
 
 			.body {
@@ -34,7 +32,9 @@
 			var canvas,context;
 			var dragging=false;
 			var points=[];
-			var socket = new WebSocket("ws://cvboard.herokuapp.com",3000);
+			var scaleX = 900;
+			//var socket = new WebSocket("ws://cvboard.herokuapp.com",3000);
+			var socket = new WebSocket("ws://192.168.1.8:3000",);
 			socket.onmessage = function(msg){
 				console.log("ws msg");
 				data = JSON.parse(msg.data);
@@ -55,6 +55,18 @@
 			}
 			function afterLoad(){
 				canvas = $("#board")[0];
+				scaleX = canvas.width;
+				cp = $("#cp")[0];
+				cp.style.width = cp.parentElement.style.width;
+				
+				canvas.style.width = cp.clientWidth-40;
+				canvas.style.height = canvas.height;
+				
+				str =  canvas.style.width;
+				str = str.substring(0,str.length-2);
+				
+				scaleX /= parseInt(str);
+				
 				context = canvas.getContext('2d');
 				canvas.addEventListener('mousedown',mouseDown);
 				canvas.addEventListener('mouseup',mouseUp);
@@ -102,6 +114,7 @@
 				if(dragging){
 					var x = e.offsetX || e.layerX - canvas.offsetLeft;
 					var y = e.offsetY || e.layerY - canvas.offsetTop;
+					x*=scaleX;
 					context.lineTo(x,y);
 					context.stroke();
 					points.push({x:x,y:y});
@@ -118,8 +131,8 @@
 	<body id='body' class='body wrapper' style='padding:20px;' onload='afterLoad()'>
 		<div class='container'>
 			<h2>TeamBoard</h2>
-			<div class='jumbotron center1' style='padding:20px;width:840px'>
-				<canvas id='board' height='500px' width='800px' style='border: 1px solid blue;'></canvas>
+			<div class='jumbotron center1' id='cp' style='padding:20px;width:940px;height:540px;'>
+				<canvas id='board' height='500px' width='900px' style='border: 1px solid blue;'></canvas>
 			</div>
 		</div>
 	</body>
