@@ -34,13 +34,18 @@
 			var points=[];
 			var scaleX = 900;
 			var socket = new WebSocket("ws://cvboard.herokuapp.com",3000);
-			//var socket = new WebSocket("ws://192.168.1.8:3000");
+			//var socket = new WebSocket("ws://localhost:3000");
 			socket.onmessage = function(msg){
 				console.log("ws msg");
 				data = JSON.parse(msg.data);
 				
 				if(data.ping){
 					console.log("pinged by server");
+					return;
+				}
+				
+				if(data.clientCount){
+					document.getElementById('clientCnt').innerHTML = "Clients: " + data.clientCount;
 					return;
 				}
 				
@@ -137,6 +142,7 @@
 	<body id='body' class='body wrapper' style='padding:20px;' onload='afterLoad()'>
 		<div class='container-fluid'>
 			<h2>TeamBoard</h2>
+			<p id='clientCnt'>Clients: </p>
 			<div class='jumbotron center1' id='cp' style='padding:20px;width:940px;height:540px;'>
 				<canvas id='board' height='500px' width='900px' style='border: 1px solid blue;'></canvas>
 			</div>

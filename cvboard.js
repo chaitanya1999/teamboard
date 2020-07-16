@@ -13,10 +13,12 @@ const server = express()
   .listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
 const wss = new SocketServer({ server });
-
+var clientCount=0;
 wss.on('connection', (ws) => {
+	clientCount++;
+	wss.clients.forEach((c)=>{c.send(JSON.stringify({clientCount:clientCount}));})
   console.log('Client connected');
-  ws.on('close', () => console.log('Client disconnected'));
+	ws.on('close', () => {console.log('Client disconnected');clientCount--;wss.clients.forEach((c)=>{c.send(JSON.stringify({clientCount:clientCount}));})});
   ws.on('message',(msg)=>{
     //console.log("msg from client");
 	wss.clients.forEach((c)=>{if(c!=ws)c.send(msg);})
