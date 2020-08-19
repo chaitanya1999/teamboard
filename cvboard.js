@@ -21,7 +21,7 @@ wss.on('connection', (ws) => {
 	ws.on('close', () => {console.log('Client disconnected');clientCount--;wss.clients.forEach((c)=>{c.send(JSON.stringify({clientCount:clientCount}));})});
   ws.on('message',(msg)=>{
     //console.log("msg from client");
-	wss.clients.forEach((c)=>{if(c!=ws)c.send(msg);})
+	wss.clients.forEach((c)=>{/*if(c!=ws)*/c.send(msg);})
   });
 });
 
