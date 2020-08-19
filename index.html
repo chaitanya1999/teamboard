@@ -29,7 +29,7 @@
 		</style>
 		
 		<script>
-			var canvas,context;
+			var canvas,context,pencilSize, pencilColor;
 			var dragging=false;
 			var points=[];
 			var scaleX = 900;
@@ -53,7 +53,9 @@
 				context.beginPath();
 				context.lineWidth=3;
 				context.strokeStyle="#000000";
-				for(var i=0;i<data.length;i++){
+				if(data[0].lineWidth) context.lineWidth = data[0].lineWidth;
+				if(data[0].strokeStyle) context.strokeStyle = data[0].strokeStyle;
+				for(var i=1;i<data.length;i++){
 					context.lineTo(data[i].x,data[i].y);
 				}
 				context.stroke();
@@ -66,6 +68,8 @@
 			}
 			function afterLoad(){
 				canvas = $("#board")[0];
+				pencilSize = $("#pencilSize")[0];
+				pencilColor = $("#drawColor")[0];
 				scaleX = canvas.width;
 				cp = $("#cp")[0];
 				cp.style.width = cp.parentElement.style.width;
@@ -106,6 +110,9 @@
 				
 				$("#body")[0].addEventListener('mouseup',mouseUp);
 				$("#body")[0].addEventListener('mousedown',mouseDown);
+
+				context.fillStyle = "white";
+				context.fillRect(0, 0, canvas.width, canvas.height);
 			}
 			// Get the position of a touch relative to the canvas
 			function getTouchPos(canvasDom, touchEvent) {
@@ -118,8 +125,10 @@
 			function mouseDown(e){
 				dragging=true;
 				context.beginPath();
-				context.lineWidth=3;
-				context.strokeStyle="#000000";
+				obj = {};
+				obj.lineWidth = context.lineWidth=pencilSize.value;
+				obj.strokeStyle = context.strokeStyle=pencilColor.value;
+				points.push(obj);
 			}
 			function mouseMove(e){
 				if(dragging){
@@ -142,7 +151,15 @@
 	<body id='body' class='body wrapper' style='padding:20px;' onload='afterLoad()'>
 		<div class='container-fluid'>
 			<h2>TeamBoard</h2>
-			<p id='clientCnt'>Clients: </p>
+			<kbd id='clientCnt'>Clients: </kbd>&nbsp;
+			<kbd>
+				<label for="drawColor">Pencil Color:</label>
+				<input type="color" id="drawColor" value="#000000" />
+			</kbd>&nbsp;
+			<kbd>
+				<label for="pencilSize">Pencil Size:</label>
+			</kbd>
+				<input type='number' id="pencilSize" min='1' max='50' value='3'/>
 			<div class='jumbotron center1' id='cp' style='padding:20px;width:940px;height:540px;'>
 				<canvas id='board' height='500px' width='900px' style='border: 1px solid blue;'></canvas>
 			</div>
